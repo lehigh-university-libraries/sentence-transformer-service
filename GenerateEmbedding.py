@@ -2,6 +2,7 @@ from flask import Flask, abort, request
 from sentence_transformers import SentenceTransformer
 import json
 import os
+import logging
 
 app = Flask(__name__)
 
@@ -27,3 +28,19 @@ def generate_embedding():
     embeddings = model.encode(text)
     embeddingsJson = json.dumps(embeddings.tolist()) + "\n"
     return embeddingsJson
+
+
+@app.route("/healthcheck")
+def healthcheck():
+    return "OK"
+
+
+class HealthCheckFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.getMessage().find("/healthcheck") == -1
+
+
+# Remove /healthcheck from application server logs
+logging.getLogger("gunicorn.access").addFilter(HealthCheckFilter())
+
+logger = logging.getLogger(__name__)
