@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-MODEL_PATH = os.environ.get("MODEL_PATH", "/app/sbert/models")
+MODEL_PATH = os.environ.get("MODEL_PATH", "/app/models")
 model = SentenceTransformer(MODEL_PATH)
 
 
