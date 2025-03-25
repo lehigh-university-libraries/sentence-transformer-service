@@ -15,7 +15,7 @@ RUN apt-get update \
 COPY requirements.txt /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-COPY . /app
+COPY cache.py /app
 
 ENV FLASK_APP=GenerateEmbedding \
     MODEL_PATH=/app/models \
@@ -25,5 +25,7 @@ ENV FLASK_APP=GenerateEmbedding \
 
 # cache the model in the docker image
 RUN python /app/cache.py && ls -l /app/models/model.safetensors
+
+COPY . /app
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
