@@ -1,4 +1,4 @@
-from flask import Flask, abort, request
+from flask import Flask, abort, request, Response
 from sentence_transformers import SentenceTransformer
 import json
 import os
@@ -27,7 +27,7 @@ def generate_embedding():
         abort(400)
     embeddings = model.encode(text)
     embeddingsJson = json.dumps(embeddings.tolist()) + "\n"
-    return embeddingsJson
+    return Response(embeddingsJson, mimetype="application/json")
 
 
 @app.route("/healthcheck")
