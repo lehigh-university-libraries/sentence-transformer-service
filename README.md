@@ -1,6 +1,6 @@
 # sentence-transformer-service
 
-Service to transform sentences into embeddings
+Simple web service to generate embeddings via an AI sentence transformer
 
 ## Developing locally
 
