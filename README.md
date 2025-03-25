@@ -7,7 +7,7 @@ Simple web service to generate embeddings via an AI sentence transformer
 You can build the service via
 
 ```
-docker build -t ghcr.io/lehigh-university-libraries/sentence-transformer:main
+docker build -t ghcr.io/lehigh-university-libraries/sentence-transformer:main .
 ```
 
 Then make it available on your local machine with
@@ -16,7 +16,7 @@ Then make it available on your local machine with
 docker run -p 8080:8080 ghcr.io/lehigh-university-libraries/sentence-transformer:main
 ```
 
-Then open [http://localhost:8080/?q="foo bar baz"](http://localhost:8080/?q="foo bar baz") in your web browser to see the embeddings for the sentence "foo bar baz"
+Then open [http://localhost:8080/?q=foo+bar+baz](http://localhost:8080/?q=foo+bar+baz) in your web browser to see the embeddings for the sentence `foo bar baz`
 
 ## Updating model
 
