@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: islandora-transformer
+  name: sentence-transformer
 spec:
   selector:
-    app: islandora-transformer
+    app: sentence-transformer
   ports:
     - protocol: TCP
       port: 8091
@@ -14,16 +14,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: islandora-transformer
+  name: sentence-transformer
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: islandora-transformer
+      app: sentence-transformer
   template:
     metadata:
       labels:
-        app: islandora-transformer
+        app: sentence-transformer
     spec:
       containers:
         - name: sentence-transformer
