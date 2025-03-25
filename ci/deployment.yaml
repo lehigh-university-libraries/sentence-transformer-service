@@ -8,7 +8,7 @@ spec:
     app: islandora-transformer
   ports:
     - protocol: TCP
-      port: 8090
+      port: 8091
       targetPort: 8080
 ---
 apiVersion: apps/v1
@@ -31,17 +31,16 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "500m"
-            limits:
               memory: "1Gi"
-              nvidia.com/gpu: "1"
+              cpu: "1000m"
+            limits:
+              memory: "2Gi"
           ports:
             - containerPort: 8080
-              hostPort: 8090
+              hostPort: 8091
           readinessProbe:
             httpGet:
               path: /healthcheck
               port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: 15
+            periodSeconds: 30
