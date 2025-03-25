@@ -2,7 +2,7 @@ FROM python:3.13-bookworm@sha256:ae9f9ac89467077ed1efefb6d9042132d28134ba201b282
 
 WORKDIR /app
 
-# renovate: datasource=repology depName=debian_13/gosu
+# renovate: datasource=repology depName=debian_12/gosu
 ARG GOSU_VERSION="1.14-1+b10"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
