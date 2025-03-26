@@ -2,6 +2,27 @@
 
 Simple web service to generate embeddings via an AI sentence transformer
 
+## Usage
+
+`GET` and `POST` requests are both supported.
+
+```
+$ curl http://transformer:8080?q=your+sentence
+$ curl \
+  -H "Content-Type: application/json" \
+  -d '"your sentence"' \
+  http://transformer:8080
+```
+
+`POST` data must be a json encoded string. e.g.
+
+```
+curl \
+  -H "Content-Type: application/json" \
+  -d "$(echo "Please excuse my dear aunt sally!" | jq -R .)" \
+  http://transformer:8080
+```
+
 ## Developing locally
 
 You can build the service via
