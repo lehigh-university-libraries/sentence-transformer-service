@@ -17,14 +17,19 @@ def page_not_found(error):
 
 @app.errorhandler(400)
 def bad_request(error):
-    return "Valid routes are only /?q=SENTENCE", 400
+    return "Valid routes are only GET /?q=SENTENCE and POST /", 400
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def generate_embedding():
-    text = request.args.get("q")
-    if text is None:
+    if request.method == "POST":
+        text = request.get_json()
+    else:
+        text = request.args.get("q")
+
+    if type(text) is not str:
         abort(400)
+
     embeddings = model.encode(text)
     embeddingsJson = json.dumps(embeddings.tolist()) + "\n"
     return Response(embeddingsJson, mimetype="application/json")

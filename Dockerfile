@@ -29,3 +29,5 @@ RUN python /app/cache.py && ls -l /app/models/model.safetensors
 COPY . /app
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
+
+HEALTHCHECK CMD curl -f http://localhost:$PORT/healthcheck
