@@ -6,7 +6,7 @@ import logging
 
 app = Flask(__name__)
 
-MODEL_PATH = os.environ.get("MODEL_PATH", "/app/models")
+MODEL_PATH = os.environ.get("MODEL_PATH", "/models")
 model = SentenceTransformer(MODEL_PATH)
 
 
