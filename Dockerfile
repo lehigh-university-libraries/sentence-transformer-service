@@ -18,13 +18,13 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY cache.py /app
 
 ENV FLASK_APP=GenerateEmbedding \
-    MODEL_PATH=/app/models \
+    MODEL_PATH=/models \
     ADDRESS=0.0.0.0 \
     PORT=8080 \
     WORKERS=4
 
 # cache the model in the docker image
-RUN python /app/cache.py && ls -l /app/models/model.safetensors
+RUN python /app/cache.py && ls -l /models/model.safetensors
 
 COPY . /app
 

@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer
 import os
 
-MODEL_PATH = os.environ.get("MODEL_PATH", "/app/models")
+MODEL_PATH = os.environ.get("MODEL_PATH", "/models")
 
 model = SentenceTransformer(
     model_name_or_path="sentence-transformers/all-MiniLM-L6-v2",
