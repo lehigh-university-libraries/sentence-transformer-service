@@ -7,7 +7,7 @@ Simple web service to generate embeddings via an AI sentence transformer
 `GET` and `POST` requests are both supported.
 
 ```
-$ curl http://transformer:8080?q=your+sentence
+$ curl "http://transformer:8080?q=your+sentence"
 $ curl \
   -H "Content-Type: application/json" \
   -d '"your sentence"' \
