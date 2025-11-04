@@ -1,3 +1,4 @@
-sentence-transformers==5.0.0
+torch==2.9.0
+sentence-transformers==5.1.1
 flask==3.1.1
 gunicorn==23.0.0
