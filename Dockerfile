@@ -9,7 +9,9 @@ RUN uv pip install \
 COPY cache.py /app
 
 ENV FLASK_APP="GenerateEmbedding:app" \
-    MODEL_PATH=/models
+    MODEL_PATH=/models \
+    MODEL_NAME="Qwen/Qwen3-Embedding-0.6B" \
+    EMBEDDING_DIMENSION=1024
 
 # cache the model in the docker image
 RUN python3 /app/cache.py && ls -l /models/model.safetensors
