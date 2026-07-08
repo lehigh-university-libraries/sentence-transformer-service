@@ -2,10 +2,9 @@ from sentence_transformers import SentenceTransformer
 import os
 
 MODEL_PATH = os.environ.get("MODEL_PATH", "/models")
+MODEL_NAME = os.environ.get("MODEL_NAME", "Qwen/Qwen3-Embedding-0.6B")
 
-model = SentenceTransformer(
-    model_name_or_path="sentence-transformers/all-MiniLM-L6-v2",
-    revision="c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
-)
-
+# Downloaded and baked into the image at build time. To change the model, set
+# MODEL_NAME (and keep EMBEDDING_DIMENSION and the Solr DenseVectorField in sync).
+model = SentenceTransformer(MODEL_NAME)
 model.save(MODEL_PATH)

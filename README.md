@@ -1,27 +1,38 @@
 # sentence-transformer-service
 
-Simple web service to generate embeddings via an AI sentence transformer
+Web service to generate embeddings via a Sentence Transformers model.
 
-## Usage
+Model: **Qwen/Qwen3-Embedding-0.6B** (1024-d, normalized). Used by
+`islandora_rag` (Drupal indexing) and the Go `search` service (query time) for
+semantic / RAG search. See `docs/islandora_rag.md`.
 
-`GET` and `POST` requests are both supported.
+## API
+
+- `POST /embed/documents` — embed passages (no instruction).
+  Body: `{"texts": ["..."], "dimension": 1024}` → `{"embeddings": [[...]], "model", "dimension"}`
+- `POST /embed/query` — embed a user question (Qwen3 query instruction applied).
+  Body: `{"texts": ["..."]}` or `{"text": "..."}` → `{"embeddings": [[...]], "embedding": [...]}`
+- `GET /model` — `{"model", "dimension", "native_dimension", "normalize"}`
+- `GET /healthcheck` — `OK`
+- `GET|POST /` — legacy single-vector endpoint (document-style).
+
+Vectors are L2-normalized (so Solr `dot_product` == cosine). `dimension` may be
+any value ≤ native (1024) — Qwen3 is Matryoshka-trained, so we truncate and
+re-normalize. Keep `dimension` in sync with the Solr `DenseVectorField`.
 
 ```
-$ curl "http://transformer:8080?q=your+sentence"
-$ curl \
-  -H "Content-Type: application/json" \
-  -d '"your sentence"' \
-  http://transformer:8080
+curl -H "Content-Type: application/json" \
+  -d '{"texts": ["Please excuse my dear aunt sally!"]}' \
+  http://embed:8080/embed/documents
 ```
 
-`POST` data must be a json encoded string. e.g.
+Config (env): `MODEL_NAME` (default `Qwen/Qwen3-Embedding-0.6B`),
+`EMBEDDING_DIMENSION` (default `1024`), `QUERY_PROMPT` (query instruction),
+`MODEL_PATH` (baked-in model dir).
 
-```
-curl \
-  -H "Content-Type: application/json" \
-  -d "$(echo "Please excuse my dear aunt sally!" | jq -R .)" \
-  http://transformer:8080
-```
+`QUERY_PROMPT` is model-specific. If `MODEL_NAME` changes, review the query
+instruction at the same time; using a prompt tuned for a different embedding
+model can silently degrade retrieval quality.
 
 ## Developing locally
 
