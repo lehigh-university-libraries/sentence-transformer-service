@@ -29,24 +29,13 @@ spec:
         - name: sentence-transformer
           image: ghcr.io/lehigh-university-libraries/sentence-transformer-service:main
           imagePullPolicy: Always
-          command: ["gunicorn"]
-          args:
-            - "--bind"
-            - "0.0.0.0:8080"
-            - "--workers"
-            - "1"
-            - "--timeout"
-            - "600"
-            - "--worker-tmp-dir"
-            - "/tmp"
-            - "--chdir"
-            - "/app"
-            - "GenerateEmbedding:app"
           env:
             - name: HOME
               value: /tmp
             - name: XDG_CACHE_HOME
               value: /tmp/.cache
+            - name: WORKERS
+              value: "1"
           resources:
             requests:
               memory: "2Gi"

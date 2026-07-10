@@ -21,7 +21,7 @@ QUERY_PROMPT = os.environ.get(
 )
 
 model = SentenceTransformer(MODEL_PATH, processor_kwargs=PROCESSOR_KWARGS)
-NATIVE_DIMENSION = model.get_sentence_embedding_dimension()
+NATIVE_DIMENSION = model.get_embedding_dimension()
 
 
 def _embed(texts, is_query, dimension):

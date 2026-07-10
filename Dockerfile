@@ -12,14 +12,18 @@ ENV FLASK_APP="GenerateEmbedding:app" \
     HOME=/tmp \
     XDG_CACHE_HOME=/tmp/.cache \
     GUNICORN_CMD_ARGS="--worker-tmp-dir /tmp --chdir /app" \
+    WORKERS=1 \
     MODEL_PATH=/models \
     MODEL_NAME="Qwen/Qwen3-Embedding-0.6B" \
     EMBEDDING_DIMENSION=1024
 
-# cache the model in the docker image
-RUN python3 /app/cache.py && python3 -c "from sentence_transformers import SentenceTransformer; m = SentenceTransformer('/models', processor_kwargs={'fix_mistral_regex': True}); print(m.get_sentence_embedding_dimension())"
+# cache the model in the docker image and verify the runtime user can load it
+RUN python3 /app/cache.py \
+    && python3 -c "from sentence_transformers import SentenceTransformer; m = SentenceTransformer('/models', processor_kwargs={'fix_mistral_regex': True}); print(m.get_embedding_dimension())" \
+    && chown -R pyapp:pyapp /models \
+    && s6-setuidgid pyapp python3 -c "from sentence_transformers import SentenceTransformer; m = SentenceTransformer('/models', processor_kwargs={'fix_mistral_regex': True}); print(m.get_embedding_dimension())"
 
 COPY . /app
 
 EXPOSE 8080
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "600", "GenerateEmbedding:app"]
+HEALTHCHECK CMD curl -f http://localhost:8080/healthcheck || exit 1
