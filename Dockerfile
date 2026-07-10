@@ -1,4 +1,4 @@
-FROM ghcr.io/lehigh-university-libraries/python3.13:main@sha256:46731c8d3efc11d8748996be972b8a163571acf5a84a714efde5ad92b0cefbc6
+FROM ghcr.io/lehigh-university-libraries/python3.13:main@sha256:90ea476591cd5f617744dbd08d4152504300c96cc17deefc158037a9c4e14790
 
 COPY requirements.txt /app
 RUN uv pip install \
