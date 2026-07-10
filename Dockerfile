@@ -17,7 +17,7 @@ ENV FLASK_APP="GenerateEmbedding:app" \
     EMBEDDING_DIMENSION=1024
 
 # cache the model in the docker image
-RUN python3 /app/cache.py && python3 -c "from sentence_transformers import SentenceTransformer; m = SentenceTransformer('/models'); print(m.get_sentence_embedding_dimension())"
+RUN python3 /app/cache.py && python3 -c "from sentence_transformers import SentenceTransformer; m = SentenceTransformer('/models', tokenizer_kwargs={'fix_mistral_regex': True}); print(m.get_sentence_embedding_dimension())"
 
 COPY . /app
 
