@@ -27,8 +27,26 @@ spec:
     spec:
       containers:
         - name: sentence-transformer
-          image: ghcr.io/lehigh-university-libraries/sentence-transformer:main
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/lehigh-university-libraries/sentence-transformer-service:main
+          imagePullPolicy: Always
+          command: ["gunicorn"]
+          args:
+            - "--bind"
+            - "0.0.0.0:8080"
+            - "--workers"
+            - "1"
+            - "--timeout"
+            - "600"
+            - "--worker-tmp-dir"
+            - "/tmp"
+            - "--chdir"
+            - "/app"
+            - "GenerateEmbedding:app"
+          env:
+            - name: HOME
+              value: /tmp
+            - name: XDG_CACHE_HOME
+              value: /tmp/.cache
           resources:
             requests:
               memory: "2Gi"
