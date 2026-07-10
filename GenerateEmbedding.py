@@ -10,6 +10,7 @@ app = Flask(__name__)
 MODEL_PATH = os.environ.get("MODEL_PATH", "/models")
 MODEL_NAME = os.environ.get("MODEL_NAME", "Qwen/Qwen3-Embedding-0.6B")
 DEFAULT_DIMENSION = int(os.environ.get("EMBEDDING_DIMENSION", "1024"))
+PROCESSOR_KWARGS = {"fix_mistral_regex": True}
 
 # Qwen3-Embedding is instruction-aware: queries get an instruction, documents do
 # not. The service owns this difference so callers just say "documents" or
@@ -19,8 +20,8 @@ QUERY_PROMPT = os.environ.get(
     "Instruct: Given a user question, retrieve digital repository passages that answer it\nQuery:",
 )
 
-model = SentenceTransformer(MODEL_PATH)
-NATIVE_DIMENSION = model.get_sentence_embedding_dimension()
+model = SentenceTransformer(MODEL_PATH, processor_kwargs=PROCESSOR_KWARGS)
+NATIVE_DIMENSION = model.get_embedding_dimension()
 
 
 def _embed(texts, is_query, dimension):
