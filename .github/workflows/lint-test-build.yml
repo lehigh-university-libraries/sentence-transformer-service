@@ -24,7 +24,7 @@ jobs:
         with:
           verbose: true
 
-      - uses: psf/black@stable
+      - uses: psf/black@258e7dbf348bc23cb70b8cdf693481c04634ebcc # stable
         with:
           options: "--check --verbose"
 
